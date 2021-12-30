@@ -9,10 +9,10 @@ var transport = nodemailer.createTransport({
     // secure: false,
     service: 'gmail',
     auth: {
-      user: "pitungs060@gmail.com",
-      pass: "pcdvuhrqfspobyrv"
+        user: "pitungs060@gmail.com",
+        pass: "pcdvuhrqfspobyrv"
     }
-  });
+});
 
 module.exports = (app) => {
     app.use('/', router);
@@ -24,13 +24,11 @@ router.get('/home', (req, res) => {
     })
 })
 
-router.get('/mail', async (req, res) => {
+router.post('/mail', async (req, res) => {
+    const { to, subject = 'Sending Email using Node.js', text, html = '' } = req.body;
+
     const mailData = {
-        from: 'pitungs060@gmail.com',  // sender address
-        to: 'bagusp0518@gmail.com',   // list of receivers
-        subject: 'Sending Email using Node.js',
-        text: 'Pesan coba!',
-        html: '<b>Pesan coba! </b> <br> Ini hanya pesan coba saja <br/>',
+        from: 'pitungs060@gmail.com', to, subject, text, html,
     };
 
     try {
