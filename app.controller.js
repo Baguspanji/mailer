@@ -3,17 +3,6 @@ const router = express.Router();
 
 const nodemailer = require('nodemailer');
 
-var transport = nodemailer.createTransport({
-    // host: "smtp.mailtrap.io",
-    // port: 2525,
-    // secure: false,
-    service: 'gmail',
-    auth: {
-        user: "pitungs060@gmail.com",
-        pass: "pcdvuhrqfspobyrv"
-    }
-});
-
 module.exports = (app) => {
     app.use('/', router);
 };
@@ -25,10 +14,15 @@ router.get('/home', (req, res) => {
 })
 
 router.post('/mail', async (req, res) => {
-    const { to, subject = 'Sending Email using Node.js', text, html = '' } = req.body;
+    const { user, pass, to, subject = 'Sending Email using Node.js', text, html = '' } = req.body;
+
+    var transport = nodemailer.createTransport({
+        service: 'gmail',
+        auth: { user, pass }
+    });
 
     const mailData = {
-        from: 'pitungs060@gmail.com', to, subject, text, html,
+        from: user, to, subject, text, html,
     };
 
     try {
